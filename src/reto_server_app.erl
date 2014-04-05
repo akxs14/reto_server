@@ -12,9 +12,9 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-    Routes    = routes(),
+    Routes    = router:routes(),
     Dispatch  = cowboy_router:compile(Routes),
-    Port      = port(),
+    Port      = router:port(),
     TransOpts = [{port, Port}],
     ProtoOpts = [{env, [{dispatch, Dispatch}]}],
     {ok, _}   = cowboy:start_http(http, ?C_ACCEPTORS, TransOpts, ProtoOpts),
@@ -27,18 +27,6 @@ stop(_State) ->
 %% Internal functions
 %% ===================================================================
 
-routes() ->
-    [
-     {'_', [
-            {"/", router_handler, []}
-           ]}
-    ].
 
-port() ->
-    case os:getenv("PORT") of
-        false ->
-            {ok, Port} = application:get_env(http_port),
-            Port;
-        Other ->
-            list_to_integer(Other)
-    end.
+
+
