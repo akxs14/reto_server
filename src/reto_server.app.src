@@ -1,6 +1,6 @@
 {application, reto_server,
  [
-  {description, ""},
+  {description, "server's root app"},
   {vsn, "1"},
   {registered, []},
   {applications, [
