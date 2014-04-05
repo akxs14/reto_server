@@ -1,4 +1,4 @@
-%% rel generated at {2014,4,6} {1,19,32}
+%% rel generated at {2014,4,6} {1,35,22}
 {release,{"reto_server","1"},
          {erts,"5.10.4"},
          [{kernel,"2.16.4"},

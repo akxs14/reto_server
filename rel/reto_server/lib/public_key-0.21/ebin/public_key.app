@@ -1,4 +1,4 @@
-%% app generated at {2014,4,6} {1,19,34}
+%% app generated at {2014,4,6} {1,35,24}
 {application,public_key,
              [{description,"Public key infrastructure"},
               {vsn,"0.21"},

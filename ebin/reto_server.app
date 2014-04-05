@@ -5,6 +5,6 @@
               {applications,[kernel,stdlib,cowboy]},
               {mod,{reto_server_app,[]}},
               {env,[{http_port,8080}]},
-              {modules,[ad_request_handler,reto_launch,reto_server,
-                        reto_server_app,reto_server_sup,router,
-                        router_handler]}]}.
+              {modules,[ad_request_handler,openrtb2_bid_request_handler,
+                        reto_launch,reto_server,reto_server_app,
+                        reto_server_sup,router,router_handler]}]}.

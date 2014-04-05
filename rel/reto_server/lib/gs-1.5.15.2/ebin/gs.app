@@ -1,4 +1,4 @@
-%% app generated at {2014,4,6} {1,19,33}
+%% app generated at {2014,4,6} {1,35,24}
 {application,gs,
              [{description,"GS  The Graphics System"},
               {vsn,"1.5.15.2"},
