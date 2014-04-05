@@ -14,3 +14,6 @@ console:
 	. rel/reto_server/bin/reto_server console
  
 rel: deps compile generate reto_server-rel
+
+run:
+	erl -pa ebin deps/*/ -s reto_launch

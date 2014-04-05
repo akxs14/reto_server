@@ -1,4 +1,4 @@
-%% rel generated at {2014,4,6} {0,19,7}
+%% rel generated at {2014,4,6} {0,31,8}
 {release,{"start_clean",[]},
          {erts,"5.10.4"},
          [{kernel,"2.16.4"},
@@ -6,6 +6,8 @@
           {asn1,"2.0.4",load},
           {compiler,"4.9.4",load},
           {crypto,"3.2",load},
+          {ranch,"0.8.1",load},
+          {cowboy,"0.8.4",load},
           {syntax_tools,"1.6.13",load},
           {edoc,"0.7.12.1",load},
           {et,"1.4.4.5",load},
