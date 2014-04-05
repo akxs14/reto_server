@@ -5,7 +5,8 @@
 routes() ->
     [
      {'_', [
-            {"/", ad_request_handler, []}
+            {"/ad/:userid", ad_request_handler, []},
+            {"/openrtb2", openrtb2_bid_request_handler, []}
            ]}
     ].
 
