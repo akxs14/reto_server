@@ -1,13 +1,14 @@
 compile:
-  rebar compile
+	./rebar compile
  
 deps:
-  rebar get-deps
+	./rebar get-deps
  
 generate:
-  rm -rf rel/reto_server
-  rebar generate
-  chmod a+x rel/reto_server/bin/reto_server
+	cd rel
+	rm -rf reto_server
+	../rebar generate
+	chmod a+x reto_server/bin/reto_server
 
 console:
 	. rel/reto_server/bin/reto_server console
