@@ -1,4 +1,4 @@
-%% app generated at {2014,4,5} {22,40,17}
+%% app generated at {2014,4,5} {23,0,27}
 {application,stdlib,
              [{description,"ERTS  CXC 138 10"},
               {vsn,"1.19.4"},
