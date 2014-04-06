@@ -6,7 +6,8 @@
   {applications, [
                   kernel,
                   stdlib,
-                  cowboy
+                  cowboy,
+                  jiffy
                  ]},
   {mod, { reto_server_app, []}},
   {env, [{http_port, 8080}]}
