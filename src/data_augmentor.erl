@@ -10,5 +10,5 @@ retrieveUserData(User) ->
 %% Internal functions
 %% ===================================================================
 
-lookupUserData(User) ->
+lookupUserData(_User) ->
   ok.
