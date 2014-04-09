@@ -1,4 +1,4 @@
-%% app generated at {2014,4,9} {0,54,23}
+%% app generated at {2014,4,9} {1,45,11}
 {application,observer,
              [{description,"OBSERVER version 1"},
               {vsn,"1.3.1.2"},
