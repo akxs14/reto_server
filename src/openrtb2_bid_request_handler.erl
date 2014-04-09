@@ -4,6 +4,7 @@
 -export([allowed_methods/2]).
 -export([content_types_accepted/2]).
 -export([handle_bid_request/2]).
+-export([terminate/3]).
 
 init(_Transport, _Req, []) ->
     {upgrade, protocol, cowboy_rest}.
@@ -17,13 +18,13 @@ content_types_accepted(Req, State) ->
   ], Req, State}.
 
 handle_bid_request(Req, State) ->
-  %BidReq = openrtb2_bid_request_parser:parse(Req),
-  %_SelectedAd = decision_engine:decide(BidReq),    
-  %_BidResponse = prepare_bid_response(_SelectedAd),  
   {ok, Req2} = cowboy_req:reply(200, 
-    [{<<"content-type">>,<<"application/json">>}], 
-    <<"{\"rest\": \"Hello World!\"}">>, Req ),
-  {true, Req2, State}.
+    [{<<"content-type">>, <<"application/json">>}], 
+     jiffy:encode(<<"{\"rest\": \"Hello World!\"}">>), Req ),
+  {halt, Req2, State}.
+
+terminate(_Reason, _Req, _State) ->
+  ok.
 
 %% ===================================================================
 %% Internal functions
@@ -31,3 +32,8 @@ handle_bid_request(Req, State) ->
 
 % prepare_bid_response(_SelectedAd) ->
 %   ok.
+
+% handle_bid_request(Req, State) ->
+  %BidReq = openrtb2_bid_request_parser:parse(Req),
+  %_SelectedAd = decision_engine:decide(BidReq),    
+  %_BidResponse = prepare_bid_response(_SelectedAd),  
