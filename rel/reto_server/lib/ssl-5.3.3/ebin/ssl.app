@@ -1,4 +1,4 @@
-%% app generated at {2014,4,10} {2,7,26}
+%% app generated at {2014,4,10} {2,24,40}
 {application,ssl,
              [{description,"Erlang/OTP SSL application"},
               {vsn,"5.3.3"},

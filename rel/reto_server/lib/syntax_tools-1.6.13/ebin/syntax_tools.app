@@ -1,4 +1,4 @@
-%% app generated at {2014,4,10} {2,7,26}
+%% app generated at {2014,4,10} {2,24,41}
 {application,syntax_tools,
              [{description,"Syntax tools"},
               {vsn,"1.6.13"},
