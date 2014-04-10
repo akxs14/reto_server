@@ -1,15 +1,15 @@
-%% rel generated at {2014,4,10} {2,24,37}
+%% rel generated at {2014,4,11} {0,38,32}
 {release,{"reto_server","1"},
          {erts,"5.10.4"},
          [{kernel,"2.16.4"},
           {stdlib,"1.19.4"},
-          {sasl,"2.3.4"},
           {ranch,"0.9.0"},
           {crypto,"3.2"},
           {cowlib,"0.6.1"},
           {cowboy,"0.9.0"},
           {jiffy,"0.8.5"},
           {reto_server,"1"},
+          {sasl,"2.3.4"},
           {asn1,"2.0.4",load},
           {compiler,"4.9.4",load},
           {syntax_tools,"1.6.13",load},

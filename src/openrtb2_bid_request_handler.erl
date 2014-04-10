@@ -32,9 +32,13 @@ terminate(_Reason, _Req, _State) ->
 %   ok.
 
 handle_bid_request(Req, State) ->
+  {ok, Body, Req1} = cowboy_req:body(Req),
+  io:format("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"),
+  io:format(Body),
+  io:format("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"),  
   {ok, Req2} = cowboy_req:reply(200, 
     [{<<"content-type">>, <<"application/json">>}], 
-     jiffy:encode(<<"{\"rest\": \"Hello World!\"}">>), Req ),
+     jiffy:encode(<<"{\"rest\": \"Hello World!!!!\"}">>), Req ),
   {halt, Req2, State}.
 
 % handle_bid_request(Req, State) ->
