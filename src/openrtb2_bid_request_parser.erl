@@ -3,4 +3,6 @@
 -export([parse/1]).
 
 parse(BidRequest) ->
-  ok.
+  {DecodedBody} = jiffy:decode(BidRequest),
+  {_,Id} = proplists:lookup(<<"id">>,DecodedBody),
+  io:format("~s~n",[Id]).
