@@ -40,26 +40,6 @@ curl -X POST -H "Content-Type: application/json" -d '{
             "instl": 0,
             "tagid": "agltb3B1Yi1pbmNyDQsSBFNpdGUY7fD0FAw",
             "bidfloor": 0.5
-        },
-        {
-            "id": "3",
-            "banner": {
-                "w": 728,
-                "h": 90,
-                "pos": 1,
-                "btype": [
-                    4
-                ],
-                "battr": [
-                    14
-                ],
-                "api": [
-                    3
-                ]
-            },
-            "instl": 0,
-            "tagid": "agltb3B1Yi1pbmNyDQsSBFNpdGUY7fD0FAw",
-            "bidfloor": 0.5
         }
     ],
     "app": {

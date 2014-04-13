@@ -47,14 +47,15 @@ parse_impressions([{HeadImp} | JsonImps], ParsedImps) ->
 parse_impression(DecodedImp) ->
   #{
     id => get_id(DecodedImp),
-    banner => get_banner(DecodedImp),
+    banner => get_banner(<<"banner">>, DecodedImp),
     displaymanager => get_display_manager(DecodedImp),
     displaymanagerserver => get_display_manager_server(DecodedImp),
     instl => get_interstitial(DecodedImp),
     tagid => get_tag_id(DecodedImp),
     bidfloor => get_bid_floor(DecodedImp),
     bidfloorcur => get_bid_floor_currency(DecodedImp),
-    ext => get_ext(DecodedImp)
+    ext => get_ext(DecodedImp),
+    video => get_video(DecodedImp)
   }.
 
 get_display_manager(DecodedImp) ->
@@ -78,13 +79,13 @@ get_bid_floor_currency(DecodedImp) ->
 get_ext(DecodedImp) ->
   proplists:get_value(<<"ext">>,DecodedImp, none).
 
+
 %% parse banner objects
-get_banner(DecodedImp) ->
-  {DecodedBanner} = proplists:get_value(<<"banner">>,DecodedImp, none),
-  case DecodedBanner of
+get_banner(ElemKey, DecodedImp) ->
+  case proplists:lookup(<<"video">>,DecodedImp) of
     none ->
       #{};
-    _ ->
+    {_, DecodedBanner} ->
       #{
         w => get_width(DecodedBanner),
         h => get_height(DecodedBanner),
@@ -106,7 +107,7 @@ get_height(DecodedBanner) ->
   proplists:get_value(<<"h">>,DecodedBanner, none).
 
 get_position(DecodedBanner) ->
-  proplists:get_value(<<"pos">>,DecodedBanner, none).
+  proplists:get_value(<<"pos">>,DecodedBanner, unknown).
 
 get_topframe(DecodedBanner) ->
   proplists:get_value(<<"topframe">>,DecodedBanner, 0).
@@ -127,4 +128,71 @@ get_banner_api(DecodedBanner) ->
   proplists:get_value(<<"api">>,DecodedBanner, []).
 
 
+%% parse video objects
+get_video(DecodedImp) ->
+  case proplists:lookup(<<"video">>,DecodedImp) of
+    none ->
+      #{};
+    {_, DecodedVideo} ->
+      #{
+        w => get_width(DecodedVideo),
+        h => get_height(DecodedVideo),
+        linearity => get_linearity(DecodedVideo),
+        minduration => get_min_duration(DecodedVideo),
+        maxduration => get_max_duration(DecodedVideo),
+        protocol => get_protocol(DecodedVideo),
+        mimes => get_mime_whitelist(DecodedVideo),
+        startdelay => get_start_delay(DecodedVideo),
+        sequence => get_sequence(DecodedVideo),
+        battr => get_blocked_creative_attributes(DecodedVideo),
+        maxextended => get_max_extended_video_duration(DecodedVideo),
+        minbitrate => get_min_bitrate(DecodedVideo),
+        maxbitrate => get_max_bitrate(DecodedVideo),
+        boxingallowed => get_boxing_allowed(DecodedVideo),
+        playbackmethod => get_playback_methods(DecodedVideo),
+        delivery => get_delivery_methods(DecodedVideo),
+        pos => get_position(DecodedVideo),
+        companionad => get_companion_ads(DecodedVideo),
+        api => get_banner_api(DecodedVideo)
+      }
+  end.
+
+get_linearity(DecodedVideo) ->
+  proplists:get_value(<<"linearity">>,DecodedVideo, none).
+
+get_min_duration(DecodedVideo) ->
+  proplists:get_value(<<"minduration">>,DecodedVideo, none).
+
+get_max_duration(DecodedVideo) ->
+  proplists:get_value(<<"maxduration">>,DecodedVideo, none).
+
+get_protocol(DecodedVideo) ->
+  proplists:get_value(<<"protocol">>,DecodedVideo, none).
+
+get_start_delay(DecodedVideo) ->
+  proplists:get_value(<<"startdelay">>,DecodedVideo, none).
+
+get_sequence(DecodedVideo) ->
+  proplists:get_value(<<"sequence">>,DecodedVideo, 1).
+
+get_max_extended_video_duration(DecodedVideo) ->
+  proplists:get_value(<<"maxextended">>,DecodedVideo, extension_not_allowed).
+
+get_min_bitrate(DecodedVideo) ->
+  proplists:get_value(<<"minbitrate">>,DecodedVideo, none).
+
+get_max_bitrate(DecodedVideo) ->
+  proplists:get_value(<<"maxbitrate">>,DecodedVideo, none).
+
+get_boxing_allowed(DecodedVideo) ->
+  proplists:get_value(<<"boxingallowed">>,DecodedVideo, 1).
+
+get_playback_methods(DecodedVideo) ->
+  proplists:get_value(<<"playbackmethod">>,DecodedVideo, []).
+
+get_delivery_methods(DecodedVideo) ->
+  proplists:get_value(<<"delivery">>,DecodedVideo, []).
+
+get_companion_ads(DecodedVideo) ->
+  get_banner(<<"companionad">>, DecodedVideo).
 
