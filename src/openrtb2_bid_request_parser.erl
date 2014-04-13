@@ -12,6 +12,8 @@ parse(JsonBidReq) ->
     id => get_id(DecodedBidReq),
     imp => get_impressions(DecodedBidReq),
     site => get_site(DecodedBidReq),
+    app => get_app(DecodedBidReq),
+    device => get_device(DecodedBidReq),    
     at => get_auction_type(DecodedBidReq),
     tmax => get_max_time(DecodedBidReq),
     wseat => get_buyer_seats(DecodedBidReq),
@@ -269,6 +271,39 @@ get_keywords(DecodedSite) ->
   proplists:get_value(<<"keywords">>,DecodedSite, none).
 
 
+%% parse app object
+get_app(DecodedBidReq) ->
+  case proplists:lookup(<<"site">>,DecodedBidReq) of
+    none ->
+      #{};
+    {_, {DecodedApp}} ->
+      #{
+        id => get_id(DecodedApp),
+        name => get_name(DecodedApp),
+        domain => get_domain(DecodedApp),
+        cat => get_IAB_categories(DecodedApp),
+        sectioncat => get_section_IAB_categories(DecodedApp),
+        pagecat => get_page_IAB_categories(DecodedApp),
+        ver => get_version(DecodedApp),
+        bundle => get_bundle(DecodedApp),
+        privacypolicy => get_privacy_policy(DecodedApp),
+        paid => get_paid(DecodedApp),
+        publisher => get_publisher(DecodedApp),
+        content => get_content(DecodedApp),
+        keywords => get_keywords(DecodedApp)
+      }
+  end.
+
+get_version(DecodedApp) ->
+  proplists:get_value(<<"ver">>,DecodedApp, none).
+
+get_bundle(DecodedApp) ->
+  proplists:get_value(<<"bundle">>,DecodedApp, none).
+
+get_paid(DecodedApp) ->
+  proplists:get_value(<<"paid">>,DecodedApp, none).
+
+
 %% parse publisher object
 get_publisher(DecodedSite) ->
   case proplists:lookup(<<"publisher">>,DecodedSite) of
@@ -304,6 +339,7 @@ get_content(DecodedSite) ->
         context => get_context(DecodedContent),
         livestram => get_live_stream(DecodedContent),
         sourcerelationship => get_source_relationship(DecodedContent),
+        producer => get_producer(DecodedContent),
         len => get_len(DecodedContent)
       }
   end.
@@ -343,3 +379,115 @@ get_source_relationship(DecodedContent) ->
 
 get_len(DecodedContent) ->
   proplists:get_value(<<"len">>,DecodedContent, none).
+
+
+%% parse producer object
+get_producer(DecodedContent) ->
+  case proplists:lookup(<<"producer">>,DecodedContent) of
+    none ->
+      #{};
+    {_, {DecodedProducer}} ->
+      #{
+        id => get_id(DecodedProducer),
+        name => get_name(DecodedProducer),
+        cat => get_IAB_categories(DecodedProducer),
+        domain => get_domain(DecodedProducer)
+      }
+  end.
+
+
+%% parse device object
+get_device(DecodedBidReq) ->
+  case proplists:lookup(<<"device">>,DecodedBidReq) of
+    none ->
+      #{};
+    {_, {DecodedDevice}} ->
+      #{
+        dnt => get_do_not_track(DecodedDevice),
+        ua => get_user_agent(DecodedDevice),
+        ip => get_ip(DecodedDevice),
+        geo => get_geo(DecodedDevice),
+        didsha1 => get_didsha1(DecodedDevice),
+        didmd5 => get_didmd5(DecodedDevice),
+        dpidsha1 => get_dpidsha1(DecodedDevice),
+        dpidmd5 => get_dpidmd5(DecodedDevice),
+        ipv6 => get_ipv6(DecodedDevice),
+        carrier => get_carrier(DecodedDevice),
+        language => get_language(DecodedDevice),
+        make => get_make(DecodedDevice),
+        model => get_model(DecodedDevice),
+        os => get_os(DecodedDevice),
+        osv => get_osv(DecodedDevice),
+        js => get_js_support(DecodedDevice),
+        connectiontype => get_connection_type(DecodedDevice),
+        devicetype => get_device_type(DecodedDevice),
+        flashver => get_flash_ver(DecodedDevice)
+      }
+  end.
+
+get_do_not_track(DecodedDevice) ->
+  proplists:get_value(<<"dnt">>,DecodedDevice, none).
+
+get_user_agent(DecodedDevice) ->
+  proplists:get_value(<<"ua">>,DecodedDevice, none).
+
+get_ip(DecodedDevice) ->
+  proplists:get_value(<<"ip">>,DecodedDevice, none).
+
+get_didsha1(DecodedDevice) ->
+  proplists:get_value(<<"didsha1">>,DecodedDevice, none).
+
+get_didmd5(DecodedDevice) ->
+  proplists:get_value(<<"didmd5">>,DecodedDevice, none).
+
+get_dpidsha1(DecodedDevice) ->
+  proplists:get_value(<<"dpidsha1">>,DecodedDevice, none).
+
+get_dpidmd5(DecodedDevice) ->
+  proplists:get_value(<<"dpidmd5">>,DecodedDevice, none).
+
+get_ipv6(DecodedDevice) ->
+  proplists:get_value(<<"ipv6">>,DecodedDevice, none).
+
+get_carrier(DecodedDevice) ->
+  proplists:get_value(<<"carrier">>,DecodedDevice, none).
+
+get_language(DecodedDevice) ->
+  proplists:get_value(<<"language">>,DecodedDevice, none).
+
+get_make(DecodedDevice) ->
+  proplists:get_value(<<"make">>,DecodedDevice, none).
+
+get_model(DecodedDevice) ->
+  proplists:get_value(<<"model">>,DecodedDevice, none).
+
+get_os(DecodedDevice) ->
+  proplists:get_value(<<"os">>,DecodedDevice, none).
+
+get_osv(DecodedDevice) ->
+  proplists:get_value(<<"osv">>,DecodedDevice, none).
+
+get_js_support(DecodedDevice) ->
+  proplists:get_value(<<"js">>,DecodedDevice, none).
+
+get_connection_type(DecodedDevice) ->
+  proplists:get_value(<<"connectiontype">>,DecodedDevice, none).
+
+get_device_type(DecodedDevice) ->
+  proplists:get_value(<<"devicetype">>,DecodedDevice, none).
+
+get_flash_ver(DecodedDevice) ->
+  proplists:get_value(<<"flashver">>,DecodedDevice, none).
+
+
+%% parse geo object
+get_geo(DecodedDevice) ->
+  ok.
+
+
+
+
+
+
+
+
