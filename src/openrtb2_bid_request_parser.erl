@@ -98,11 +98,11 @@ get_bid_floor_currency(DecodedImp) ->
 
 
 %% parse banner objects
-get_banner(ElemKey, DecodedImp) ->
-  case proplists:lookup(<<"video">>,DecodedImp) of
+get_banner(ElementName, DecodedImp) ->
+  case proplists:lookup(ElementName,DecodedImp) of
     none ->
       #{};
-    {_, DecodedBanner} ->
+    {_, {DecodedBanner}} ->
       #{
         w => get_width(DecodedBanner),
         h => get_height(DecodedBanner),
@@ -150,7 +150,7 @@ get_video(DecodedImp) ->
   case proplists:lookup(<<"video">>,DecodedImp) of
     none ->
       #{};
-    {_, DecodedVideo} ->
+    {_, {DecodedVideo}} ->
       #{
         w => get_width(DecodedVideo),
         h => get_height(DecodedVideo),
