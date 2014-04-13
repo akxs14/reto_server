@@ -482,7 +482,7 @@ get_flash_ver(DecodedDevice) ->
 
 
 %% parse geo object
-get_geo(DecodedDevice) ->
+get_geo(DecodedBidReq) ->
   case proplists:lookup(<<"geo">>,DecodedBidReq) of
     none ->
       #{};
@@ -491,48 +491,78 @@ get_geo(DecodedDevice) ->
         lat => get_lat(DecodedGeoData),
         lon => get_lon(DecodedGeoData),
         country => get_country(DecodedGeoData),
-        geo => get_geo(DecodedDevice),
-        region => get_region(DecodedDevice),
-        regionfips104 => get_regionfips104(DecodedDevice),
-        metro => get_metro(DecodedDevice),
-        city => get_city(DecodedDevice),
-        zip => get_zip(DecodedDevice),
-        type => get_type(DecodedDevice)
+        geo => get_geo(DecodedGeoData),
+        region => get_region(DecodedGeoData),
+        regionfips104 => get_regionfips104(DecodedGeoData),
+        metro => get_metro(DecodedGeoData),
+        city => get_city(DecodedGeoData),
+        zip => get_zip(DecodedGeoData),
+        type => get_type(DecodedGeoData)
       }
   end.
 
 get_lat(DecodedGeoData) ->
-  proplists:get_value(<<"lat">>,DecodedDevice, none).
+  proplists:get_value(<<"lat">>,DecodedGeoData, none).
 
 get_lon(DecodedGeoData) ->
-  proplists:get_value(<<"lon">>,DecodedDevice, none).
+  proplists:get_value(<<"lon">>,DecodedGeoData, none).
 
 get_country(DecodedGeoData) ->
-  proplists:get_value(<<"country">>,DecodedDevice, none).
+  proplists:get_value(<<"country">>,DecodedGeoData, none).
 
 get_region(DecodedGeoData) ->
-  proplists:get_value(<<"region">>,DecodedDevice, none).
+  proplists:get_value(<<"region">>,DecodedGeoData, none).
 
 get_regionfips104(DecodedGeoData) ->
-  proplists:get_value(<<"regionfips104">>,DecodedDevice, none).
+  proplists:get_value(<<"regionfips104">>,DecodedGeoData, none).
 
 get_metro(DecodedGeoData) ->
-  proplists:get_value(<<"metro">>,DecodedDevice, none).
+  proplists:get_value(<<"metro">>,DecodedGeoData, none).
 
 get_city(DecodedGeoData) ->
-  proplists:get_value(<<"city">>,DecodedDevice, none).
+  proplists:get_value(<<"city">>,DecodedGeoData, none).
 
 get_zip(DecodedGeoData) ->
-  proplists:get_value(<<"zip">>,DecodedDevice, none).
+  proplists:get_value(<<"zip">>,DecodedGeoData, none).
 
 get_type(DecodedGeoData) ->
-  proplists:get_value(<<"type">>,DecodedDevice, none).
+  proplists:get_value(<<"type">>,DecodedGeoData, none).
+
 
 %% parse user object
 get_user(DecodedBidReq) ->
   ok.
 
 
+%% parse data object
+get_data(DecodedUser) ->
+  case proplists:lookup(<<"data">>,DecodedUser) of
+    none ->
+      #{};
+    {_, {DecodedData}} ->
+      #{
+        id => get_id(DecodedData),
+        name => get_name(DecodedData),
+        segment => get_segments(DecodedData)
+      }
+  end.
 
 
+%% parse segment object
+get_segments(DecodedData) ->
+   JsonSegs = proplists:get_value(<<"segment">>,DecodedData, none),
+   parse_segments(JsonSegs,[]).
+
+%% parse segments objects
+parse_segments([], ParsedSegs) ->
+  ParsedSegs;
+parse_segments([{HeadSeg} | JsonSegs], ParsedSegs) ->
+  parse_segments(JsonSegs, [parse_segment(HeadSegs)|ParsedSegs]).
+
+parse_segment(DecodedSeg) ->
+  #{
+    id => get_id(DecodedSeg),
+    name => get_name(DecodedSeg),
+    value => get_value(DecodedSeg)
+  }.
 

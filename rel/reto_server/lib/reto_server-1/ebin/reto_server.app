@@ -1,4 +1,4 @@
-%% app generated at {2014,4,13} {4,32,8}
+%% app generated at {2014,4,13} {4,43,40}
 {application,reto_server,
              [{description,"reto server"},
               {vsn,"1"},
