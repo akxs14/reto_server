@@ -232,7 +232,7 @@ get_site(DecodedBidReq) ->
         privacypolicy => get_privacy_policy(DecodedSite),
         ref => get_referrer_url(DecodedSite),
         search => get_search_string(DecodedSite),
-        keywords => get_keywords(DecodedSite),
+        keywords => get_keywords(DecodedSite)
       }
   end.
 
