@@ -531,21 +531,53 @@ get_type(DecodedGeoData) ->
 
 %% parse user object
 get_user(DecodedBidReq) ->
-  ok.
+  case proplists:lookup(<<"content">>,DecodedBidReq) of
+    none ->
+      #{};
+    {_, {DecodedUser}} ->
+      #{
+        id => get_id(DecodedUser),
+        buyeruid => get_buyer_user_id(DecodedUser),
+        yob => get_year_of_birth(DecodedUser),
+        gender => get_gender(DecodedUser),
+        keywords => get_keywords(DecodedUser),
+        customdata => get_custom_data(DecodedUser),
+        geo => get_geo(DecodedUser),
+        data => get_data(DecodedUser)
+      }
+  end.
+
+get_buyer_user_id(DecodedUser) ->
+  proplists:get_value(<<"buyeruid">>,DecodedUser, none).
+
+get_year_of_birth(DecodedUser) ->
+  proplists:get_value(<<"yob">>,DecodedUser, none).
+
+get_gender(DecodedUser) ->
+  proplists:get_value(<<"gender">>,DecodedUser, none).
+
+get_custom_data(DecodedUser) ->
+  proplists:get_value(<<"customdata">>,DecodedUser, none).
+
 
 
 %% parse data object
 get_data(DecodedUser) ->
-  case proplists:lookup(<<"data">>,DecodedUser) of
-    none ->
-      #{};
-    {_, {DecodedData}} ->
-      #{
-        id => get_id(DecodedData),
-        name => get_name(DecodedData),
-        segment => get_segments(DecodedData)
-      }
-  end.
+   JsonDataObjs = proplists:get_value(<<"data">>,DecodedUser, none),
+   parse_data_objs(JsonDataObjs,[]).
+
+%% parse segments objects
+parse_data_objs([], JsonDataObjs) ->
+  JsonDataObjs;
+parse_data_objs([{HeadDataObj} | JsonDataObjs], ParsedDataObjs) ->
+  parse_data_objs(JsonDataObjs, [parse_data_obj(HeadDataObj)|ParsedDataObjs]).
+
+parse_data_obj(DecodedDataObj) ->
+  #{
+    id => get_id(DecodedDataObj),
+    name => get_name(DecodedDataObj),
+    segment => get_segments(DecodedDataObj)
+  }.
 
 
 %% parse segment object
@@ -557,7 +589,7 @@ get_segments(DecodedData) ->
 parse_segments([], ParsedSegs) ->
   ParsedSegs;
 parse_segments([{HeadSeg} | JsonSegs], ParsedSegs) ->
-  parse_segments(JsonSegs, [parse_segment(HeadSegs)|ParsedSegs]).
+  parse_segments(JsonSegs, [parse_segment(HeadSeg)|ParsedSegs]).
 
 parse_segment(DecodedSeg) ->
   #{
@@ -565,4 +597,7 @@ parse_segment(DecodedSeg) ->
     name => get_name(DecodedSeg),
     value => get_value(DecodedSeg)
   }.
+
+get_value(DecodedSeg) ->
+  proplists:get_value(<<"value">>,DecodedSeg, none).
 
