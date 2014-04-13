@@ -14,6 +14,7 @@ parse(JsonBidReq) ->
     site => get_site(DecodedBidReq),
     app => get_app(DecodedBidReq),
     device => get_device(DecodedBidReq),    
+    user => get_user(DecodedBidReq),
     at => get_auction_type(DecodedBidReq),
     tmax => get_max_time(DecodedBidReq),
     wseat => get_buyer_seats(DecodedBidReq),
@@ -482,10 +483,54 @@ get_flash_ver(DecodedDevice) ->
 
 %% parse geo object
 get_geo(DecodedDevice) ->
+  case proplists:lookup(<<"geo">>,DecodedBidReq) of
+    none ->
+      #{};
+    {_, {DecodedGeoData}} ->
+      #{
+        lat => get_lat(DecodedGeoData),
+        lon => get_lon(DecodedGeoData),
+        country => get_country(DecodedGeoData),
+        geo => get_geo(DecodedDevice),
+        region => get_region(DecodedDevice),
+        regionfips104 => get_regionfips104(DecodedDevice),
+        metro => get_metro(DecodedDevice),
+        city => get_city(DecodedDevice),
+        zip => get_zip(DecodedDevice),
+        type => get_type(DecodedDevice)
+      }
+  end.
+
+get_lat(DecodedGeoData) ->
+  proplists:get_value(<<"lat">>,DecodedDevice, none).
+
+get_lon(DecodedGeoData) ->
+  proplists:get_value(<<"lon">>,DecodedDevice, none).
+
+get_country(DecodedGeoData) ->
+  proplists:get_value(<<"country">>,DecodedDevice, none).
+
+get_region(DecodedGeoData) ->
+  proplists:get_value(<<"region">>,DecodedDevice, none).
+
+get_regionfips104(DecodedGeoData) ->
+  proplists:get_value(<<"regionfips104">>,DecodedDevice, none).
+
+get_metro(DecodedGeoData) ->
+  proplists:get_value(<<"metro">>,DecodedDevice, none).
+
+get_city(DecodedGeoData) ->
+  proplists:get_value(<<"city">>,DecodedDevice, none).
+
+get_zip(DecodedGeoData) ->
+  proplists:get_value(<<"zip">>,DecodedDevice, none).
+
+get_type(DecodedGeoData) ->
+  proplists:get_value(<<"type">>,DecodedDevice, none).
+
+%% parse user object
+get_user(DecodedBidReq) ->
   ok.
-
-
-
 
 
 
