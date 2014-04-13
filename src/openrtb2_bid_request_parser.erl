@@ -233,6 +233,7 @@ get_site(DecodedBidReq) ->
         ref => get_referrer_url(DecodedSite),
         search => get_search_string(DecodedSite),
         publisher => get_publisher(DecodedSite),
+        content => get_content(DecodedSite),
         keywords => get_keywords(DecodedSite)
       }
   end.
@@ -282,3 +283,63 @@ get_publisher(DecodedSite) ->
       }
   end.
 
+%% parse content object
+get_content(DecodedSite) ->
+  case proplists:lookup(<<"content">>,DecodedSite) of
+    none ->
+      #{};
+    {_, {DecodedContent}} ->
+      #{
+        id => get_id(DecodedContent),
+        episode => get_episode(DecodedContent),
+        title => get_title(DecodedContent),
+        series => get_series(DecodedContent),
+        season => get_season(DecodedContent),
+        url => get_url(DecodedContent),
+        cat => get_IAB_categories(DecodedContent),
+        videoquality => get_video_quality(DecodedContent),
+        keywords => get_keywords(DecodedContent),
+        contentrating => get_content_rating(DecodedContent),
+        userrating => get_user_rating(DecodedContent),
+        context => get_context(DecodedContent),
+        livestram => get_live_stream(DecodedContent),
+        sourcerelationship => get_source_relationship(DecodedContent),
+        len => get_len(DecodedContent)
+      }
+  end.
+
+get_episode(DecodedContent) ->
+  proplists:get_value(<<"episode">>,DecodedContent, none).
+
+get_title(DecodedContent) ->
+  proplists:get_value(<<"title">>,DecodedContent, none).
+
+get_series(DecodedContent) ->
+  proplists:get_value(<<"series">>,DecodedContent, none).
+
+get_season(DecodedContent) ->
+  proplists:get_value(<<"season">>,DecodedContent, none).
+
+get_url(DecodedContent) ->
+  proplists:get_value(<<"url">>,DecodedContent, none).
+
+get_video_quality(DecodedContent) ->
+  proplists:get_value(<<"videoquality">>,DecodedContent, none).
+
+get_content_rating(DecodedContent) ->
+  proplists:get_value(<<"contentrating">>,DecodedContent, none).
+
+get_user_rating(DecodedContent) ->
+  proplists:get_value(<<"userrating">>,DecodedContent, none).
+
+get_context(DecodedContent) ->
+  proplists:get_value(<<"context">>,DecodedContent, none).
+
+get_live_stream(DecodedContent) ->
+  proplists:get_value(<<"livestream">>,DecodedContent, none).
+
+get_source_relationship(DecodedContent) ->
+  proplists:get_value(<<"sourcerelationship">>,DecodedContent, none).
+
+get_len(DecodedContent) ->
+  proplists:get_value(<<"len">>,DecodedContent, none).
