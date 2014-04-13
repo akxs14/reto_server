@@ -232,6 +232,7 @@ get_site(DecodedBidReq) ->
         privacypolicy => get_privacy_policy(DecodedSite),
         ref => get_referrer_url(DecodedSite),
         search => get_search_string(DecodedSite),
+        publisher => get_publisher(DecodedSite),
         keywords => get_keywords(DecodedSite)
       }
   end.
@@ -267,4 +268,17 @@ get_keywords(DecodedSite) ->
   proplists:get_value(<<"keywords">>,DecodedSite, none).
 
 
+%% parse publisher object
+get_publisher(DecodedSite) ->
+  case proplists:lookup(<<"publisher">>,DecodedSite) of
+    none ->
+      #{};
+    {_, {DecodedPublisher}} ->
+      #{
+        id => get_id(DecodedPublisher),
+        name => get_name(DecodedPublisher),
+        cat => get_IAB_categories(DecodedSite),
+        domain => get_domain(DecodedSite)
+      }
+  end.
 
