@@ -314,8 +314,8 @@ get_publisher(DecodedSite) ->
       #{
         id => get_id(DecodedPublisher),
         name => get_name(DecodedPublisher),
-        cat => get_IAB_categories(DecodedSite),
-        domain => get_domain(DecodedSite)
+        cat => get_IAB_categories(DecodedPublisher),
+        domain => get_domain(DecodedPublisher)
       }
   end.
 
