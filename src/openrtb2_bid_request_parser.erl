@@ -11,6 +11,7 @@ parse(JsonBidReq) ->
   ParsedBidReq = #{
     id => get_id(DecodedBidReq),
     imp => get_impressions(DecodedBidReq),
+    site => get_site(DecodedBidReq),
     at => get_auction_type(DecodedBidReq),
     tmax => get_max_time(DecodedBidReq),
     wseat => get_buyer_seats(DecodedBidReq),
@@ -212,4 +213,58 @@ get_delivery_methods(DecodedVideo) ->
 
 get_companion_ads(DecodedVideo) ->
   get_banner(<<"companionad">>, DecodedVideo).
+
+
+%% parse site object
+get_site(DecodedBidReq) ->
+  case proplists:lookup(<<"site">>,DecodedBidReq) of
+    none ->
+      #{};
+    {_, {DecodedSite}} ->
+      #{
+        id => get_id(DecodedSite),
+        name => get_name(DecodedSite),
+        domain => get_domain(DecodedSite),
+        cat => get_IAB_categories(DecodedSite),
+        sectioncat => get_section_IAB_categories(DecodedSite),
+        pagecat => get_page_IAB_categories(DecodedSite),
+        page => get_page(DecodedSite),
+        privacypolicy => get_privacy_policy(DecodedSite),
+        ref => get_referrer_url(DecodedSite),
+        search => get_search_string(DecodedSite),
+        keywords => get_keywords(DecodedSite),
+      }
+  end.
+
+get_name(DecodedSite) ->
+  proplists:get_value(<<"name">>,DecodedSite, none).
+
+get_domain(DecodedSite) ->
+  proplists:get_value(<<"domain">>,DecodedSite, none).
+
+get_IAB_categories(DecodedSite) ->
+  proplists:get_value(<<"cat">>,DecodedSite, []).
+
+get_section_IAB_categories(DecodedSite) ->
+  proplists:get_value(<<"sectioncat">>,DecodedSite, []).
+
+get_page_IAB_categories(DecodedSite) ->
+  proplists:get_value(<<"pagecat">>,DecodedSite, []).
+
+get_page(DecodedSite) ->
+  proplists:get_value(<<"page">>,DecodedSite, none).
+
+get_privacy_policy(DecodedSite) ->
+  proplists:get_value(<<"privacypolicy">>,DecodedSite, none).
+
+get_referrer_url(DecodedSite) ->
+  proplists:get_value(<<"ref">>,DecodedSite, none).
+
+get_search_string(DecodedSite) ->
+  proplists:get_value(<<"search">>,DecodedSite, none).
+
+get_keywords(DecodedSite) ->
+  proplists:get_value(<<"keywords">>,DecodedSite, none).
+
+
 
