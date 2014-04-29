@@ -16,9 +16,6 @@
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
-init([]) ->
-    {ok, []}.
-
 say_hello() ->
     gen_server:call(?MODULE, hello).
 
@@ -26,6 +23,9 @@ say_hello() ->
 %% ===================================================================
 %% Server callbacks
 %% ===================================================================
+init([]) ->
+    {ok, []}.
+
 handle_call(hello, _From, State) ->
     io:format("Hello from server!~n", []),
     {reply, ok, State};
