@@ -2,11 +2,17 @@
 
 -behaviour(gen_server).
 
+%% API
 -export([start_link/0, say_hello/0]).
 
+%% Server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
+
+%% ===================================================================
+%% API functions
+%% ===================================================================
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
@@ -16,7 +22,10 @@ init([]) ->
 say_hello() ->
     gen_server:call(?MODULE, hello).
 
-%% callbacks
+
+%% ===================================================================
+%% Server callbacks
+%% ===================================================================
 handle_call(hello, _From, State) ->
     io:format("Hello from server!~n", []),
     {reply, ok, State};
